@@ -8,11 +8,8 @@ public class Ej12 {
 		int resultado;
 		String operacion;
 		
-		System.out.println("Ingrese primer numero");
-		num1=Integer.parseInt(input.nextLine());
-		System.out.println("Ingrese segundo numero");
-		num2=Integer.parseInt(input.nextLine());
-		
+		num1=pedirNumero();
+		num2=pedirNumero();
 		operacion=seleccionOperacion();
 		
 		if(operacion.equals("f")){
@@ -20,9 +17,20 @@ public class Ej12 {
 		}
 		else {
 			resultado=cuenta(num1, num2, operacion);
+			System.out.println("Ha seleccionado "+ operacion);
 			System.out.println("El resultado es:"+ resultado);
 		}
 		
+	}
+	public static int pedirNumero() {
+		int num;
+		
+		do {
+		System.out.println("Ingrese un numero distinto de 0");
+		num=Integer.parseInt(input.nextLine());
+		}while(num==0);
+		
+		return num;
 	}
 	public static String seleccionOperacion() {
 		String operacion;
@@ -33,7 +41,7 @@ public class Ej12 {
 			System.out.println("Ingrese % para obtener el resto");
 			System.out.println("Ingrese f para salir");
 			operacion=input.nextLine();
-			entradaValida= operacion.equals("+") || operacion.equals("-") || operacion.equals("/") || operacion.equals("*");
+			entradaValida= operacion.equals("+") || operacion.equals("-") || operacion.equals("/") || operacion.equals("*") || operacion.equals("%") || operacion.equals("f");
 		}while(!entradaValida);
 		
 		return operacion;
@@ -42,8 +50,7 @@ public class Ej12 {
 	public static int cuenta(int num1, int num2, String operacion) {
 		int resultado=0;
 		
-		while(operacion!="f") {
-			switch(operacion) {
+		switch(operacion) {
 			case "+": resultado=suma(num1, num2);
 				break;
 			case "-": resultado=resta(num1, num2);
@@ -54,7 +61,6 @@ public class Ej12 {
 				break;
 			default: resultado=resto(num1, num2);
 			}
-		}
 		return resultado;
 	}
 	public static int suma(int num1, int num2) {
@@ -69,7 +75,7 @@ public class Ej12 {
 		
 		return resultado;
 	}
-	public static int division(int num1, int num2) {)
+	public static int division(int num1, int num2) {
 		int resultado;
 		resultado=num1/num2;
 		

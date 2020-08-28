@@ -71,7 +71,7 @@ public class Ej14 {
 		return mayorFactura;
 	}
 	public static void despedida(int promFactura, int mayorFactura) {
-		System.out.println("El promedio pagado por empresa el pasado mes fue de S"+ promFactura+ ".");
+		System.out.println("El promedio pagado por empresa el pasado mes fue de $"+ promFactura+ ".");
 		System.out.println("La mayor factura es por un total de $"+mayorFactura+". ");
 	}
 }

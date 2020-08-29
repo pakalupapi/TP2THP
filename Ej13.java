@@ -8,10 +8,12 @@ public class Ej13 {
 		String claseMasRequerida;
 		cantAlumnos=cantidadAlumnos();
 		claseMasRequerida=pedirDatos(cantAlumnos);
-		System.out.println("La materia elegida para refuerzo es: "+claseMasRequerida);
+		resultado(claseMasRequerida);
+		input.close();
 	}
 	public static int cantidadAlumnos() {
 		int cantAlumnos;
+		System.out.println("Bienvenido");
 		System.out.println("Ingrese cantidad de alumnos");
 		cantAlumnos=Integer.parseInt(input.nextLine());
 		return cantAlumnos;
@@ -22,7 +24,7 @@ public class Ej13 {
 		String curso="", materia, materiaMasRequerida="";
 		boolean cursoValido, materiaValida;
 		
-		for (int i=0; i<cantAlumnos; i++) {
+		for (int i=1; i<=cantAlumnos; i++) {
 			do {
 				System.out.println("Ingrese curso del alumno "+i);
 				curso=input.nextLine();
@@ -51,6 +53,8 @@ public class Ej13 {
 		}
 		return materiaMasRequerida;
 	}
-	
+	public static void resultado(String claseMasRequerida) {
+		System.out.println("La materia elegida para refuerzo es: "+claseMasRequerida);
+	}
 
 }

@@ -7,6 +7,10 @@ public class Ej15 {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		sistemaRegistroLlamadas();
+		input.close();
+	}
+	public static void sistemaRegistroLlamadas() {
 		Double cuenta=0.0;
 		Double duracionLlamada;
 		Double duracion[]=new Double[2], recaudacionABC[]=new Double[3];
@@ -17,6 +21,10 @@ public class Ej15 {
 	
 		duracion[0]=DURACION_MAX;
 		duracion[1]=DURACION_MIN;
+		recaudacionABC[0]=0.0;
+		recaudacionABC[1]=0.0;
+		recaudacionABC[2]=0.0;
+		
 		do {
 		bienvenida(cuenta);
 		duracionLlamada=obtenerDuracion();
@@ -33,7 +41,6 @@ public class Ej15 {
 		llamadaMasCorta=duracion[0];
 		precioPromedio=pedirPromedio(importeTotal, cuenta);
 		despedida(recaudacionABC[0], recaudacionABC[1], recaudacionABC[2], importeTotal, llamadaMasLarga, llamadaMasCorta, precioPromedio);
-		input.close();
 	}
 	public static void bienvenida(Double cuenta) {
 		int numeroCliente=0;
@@ -112,7 +119,7 @@ public class Ej15 {
 		else if(tipoDeAbono.equals("b")) {
 			resultado[1]+=importePorLlamada;
 		}
-		else{
+		else if(tipoDeAbono.equals("c")){
 			resultado[2]+=importePorLlamada;
 		}
 		return resultado;

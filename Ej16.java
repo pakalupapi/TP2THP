@@ -11,15 +11,15 @@ public class Ej16 {
 		int count=0;
 		int cantInvitados, totalBebida;
 		int cantXMenu[]=new int[4];
-		int tarifa[]=new int[4];
+		int tarifa[]= new int[4];
 		
 		entrar=entrar(count);
 		while(entrar) {
 			cantInvitados=obtenerInvitados();
 			cantXMenu=obtenerCantidades(cantInvitados);
-			tarifa=obtenerTarifas(cantXMenu);
+			tarifa=obtenerTarifas(cantXMenu[0], cantXMenu[1], cantXMenu[2], cantXMenu[3]);
 			totalBebida=cantInvitados*COSTO_BEBIDA;
-			mostrarResultados(tarifa, totalBebida);
+			mostrarResultados(tarifa[0], tarifa[1], tarifa[2], tarifa[3], totalBebida);
 			count+=1;
 			entrar=entrar(count);
 		}
@@ -66,33 +66,38 @@ public class Ej16 {
 		return cantInvitados;
 	}
 	public static int[] obtenerCantidades(int cantInvitados) {
-		int cantXMenu[]=new int[4];
+		int cantXMenu[]= new int[4];
 		int cantClasicos=0, cantCeliacos=0, cantKosher=0, cantLight=0;
 		int menu, invitados=cantInvitados;
 		boolean salida;
 		
+		cantXMenu[0]=0;
+		cantXMenu[1]=0;
+		cantXMenu[2]=0;
+		cantXMenu[3]=0;
 		if(cantInvitados>0) {
 			do {
 				menu=seleccionMenu();
 				switch(menu) {
-				case 1: cantClasicos=obtenerCantidadCubiertos("clásico.");
-					cantXMenu[0]=cantClasicos;
+				case 0: cantClasicos=obtenerCantidadCubiertos("clásico.");
+					cantXMenu[menu]=cantClasicos;
 					invitados-=cantClasicos;
 					break;
-				case 2: cantCeliacos=obtenerCantidadCubiertos("para celíacos.");
-					cantXMenu[1]=cantCeliacos;
+				case 1: cantCeliacos=obtenerCantidadCubiertos("para celíacos.");
+					cantXMenu[menu]=cantCeliacos;
 					invitados-=cantCeliacos;
 					break;
-				case 3: cantKosher=obtenerCantidadCubiertos("Kosher.");
-					cantXMenu[2]=cantKosher;
+				case 2: cantKosher=obtenerCantidadCubiertos("Kosher.");
+					cantXMenu[menu]=cantKosher;
 					invitados-=cantKosher;
 					break;
-				case 4: cantLight=obtenerCantidadCubiertos("light.");
-					cantXMenu[3]=cantLight;
+				case 3: cantLight=obtenerCantidadCubiertos("light.");
+					cantXMenu[menu]=cantLight;
 					invitados-=cantLight;
 					break;
 				}
-				if (invitados<=0) {
+				salida= menu==5;
+				if (invitados!=0 && salida) {
 					System.out.println("Ha ingresado las cantidades incorrectamente.");
 					System.out.println("Los valores se reiniciaran a cero");
 					invitados=cantInvitados;
@@ -101,7 +106,6 @@ public class Ej16 {
 					cantXMenu[2]=0;
 					cantXMenu[3]=0;
 				}
-				salida=menu==5;
 			}while(!salida);
 		}
 		return cantXMenu;
@@ -119,7 +123,9 @@ public class Ej16 {
 		seleccionValida=seleccion==clasico || seleccion==celiaco || seleccion==kosher || seleccion==light;
 		salida=seleccion==5;
 		}while(!seleccionValida && !salida);
-		
+		if (seleccion<5) {
+			seleccion-=1;
+		}
 		return seleccion;
 	}
 	public static int obtenerCantidadCubiertos(String plato) {
@@ -132,52 +138,55 @@ public class Ej16 {
 		
 		return cantCubiertos;
 	}
-	public static int[] obtenerTarifas(int[] cantXMenu) {
-		int tarifas[]=new int[4];
-		
+	public static int[] obtenerTarifas(int cantXMenu0, int cantXMenu1, int cantXMenu2, int cantXMenu3) {
+		int tarifas[]= new int[4];
+
 		tarifas[0]=0;
-		tarifas[1]=0;
-		tarifas[2]=0;
-		tarifas[3]=0;
+		tarifas[1]=1;
+		tarifas[2]=2;
+		tarifas[3]=3;
 		for(int menu=0; menu==3; menu++) {
 			switch(menu) {
-			case 0: tarifas[menu]+=PRECIO_CLASICO*cantXMenu[menu];
+			case 0: tarifas[menu]+=PRECIO_CLASICO*cantXMenu0;
 				break;
-			case 1: tarifas[menu]+=PRECIO_CELIACO*cantXMenu[menu];
+			case 1: tarifas[menu]+=PRECIO_CELIACO*cantXMenu1;
 				break;
-			case 2: tarifas[menu]+=PRECIO_KOSHER*cantXMenu[menu];
+			case 2: tarifas[menu]+=PRECIO_KOSHER*cantXMenu2;
 				break;
-			case 3: tarifas[menu]+=PRECIO_LIGHT*cantXMenu[menu];
+			case 3: tarifas[menu]+=PRECIO_LIGHT*cantXMenu3;
 				break;
 			}
 		}
 		return tarifas;
 	}
-	public static void mostrarResultados(int tarifas[], int totalBebida) {
-		int tarifa=0, totalComida=0;
-		int i=0;
+	public static void mostrarResultados(int tarifas0, int tarifas1, int tarifas2, int tarifas3, int totalBebida) {
+		int tarifa, totalComida=0;
+		int i;
 		boolean tarifaClasico, tarifaCeliaco, tarifaKosher, tarifaLight;
+		boolean booleanList[]=new boolean[4];
 		
+		booleanList[0]=tarifaClasico;
 		for(i=0; i==3; i++) {
 			tarifa=0;
-			tarifaClasico=tarifas[0]!=0;
-			tarifaCeliaco=tarifas[1]!=0;
-			tarifaKosher=tarifas[2]!=0;
-			tarifaLight=tarifas[3]!=0;
+			tarifaClasico=tarifas0>0;
+			tarifaCeliaco=tarifas1>0;
+			tarifaKosher=tarifas2>0;
+			tarifaLight=tarifas3>0;
+			
 			if(tarifaClasico) {
-				tarifa=tarifas[i];
+				tarifa=tarifas0;
 				System.out.println("Clásico: "+ tarifa);
 			}
 			else if(tarifaCeliaco) {
-				tarifa=tarifas[i];
+				tarifa=tarifas1;
 				System.out.println("para celiacos: "+ tarifa);
 			}
 			else if(tarifaKosher) {
-				tarifa=tarifas[i];
+				tarifa=tarifas2;
 				System.out.println("Kosher: "+ tarifa);
 			}
 			else if(tarifaLight) {
-				tarifa=tarifas[i];
+				tarifa=tarifas3;
 				System.out.println("Light: "+ tarifa);
 			}
 			totalComida+=tarifa;
